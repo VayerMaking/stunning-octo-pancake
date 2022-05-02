@@ -1,13 +1,34 @@
 const dropArea = document.querySelector(".drag-area");
 //const dragText = document.querySelector('.drag-area header');
 const dragText = dropArea.querySelector("header");
-const button = dropArea.querySelector("button");
+const browseButton = dropArea.querySelector("#browse");
+const uploadButton = document.querySelector("#upload");
 const input = dropArea.querySelector("input");
 
 let file;
 
-button.onclick = () => {
+browseButton.onclick = () => {
   input.click();
+};
+
+uploadButton.onclick = () => {
+  // upload file
+  if (file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    fetch("/upload", {
+      method: "POST",
+      body: formData,
+    }).then((response) => {
+      if (response.ok) {
+        window.location.reload();
+        return response.json();
+      }
+      throw new Error("Network response was not ok.");
+    });
+  } else {
+    alert("Please select a file!");
+  }
 };
 
 input.addEventListener("change", handleFiles);
