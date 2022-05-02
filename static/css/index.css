@@ -68,3 +68,16 @@ body {
   /* object-fit: contain; */
   border-radius: 5px;
 }
+
+#upload{
+    padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: #fff;
+  color: #5256ad;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 30px;
+}

@@ -21,6 +21,7 @@ uploadButton.onclick = () => {
       body: formData,
     }).then((response) => {
       if (response.ok) {
+        alert("File Uploaded Successfully!");
         window.location.reload();
         return response.json();
       }
