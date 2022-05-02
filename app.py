@@ -1,8 +1,9 @@
 import string
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 import werkzeug
 import os
 import random
+from os import walk 
 
 
 app = Flask(__name__)
@@ -20,6 +21,10 @@ def upload():
     imagefile.save(os.path.join("uploads", new_filename))
 
     return str(new_filename)
+
+@app.route("/getImages")
+def getImages():
+    return jsonify(next(walk("uploads/"), (None, None, []))[2])
 
 def random_string(length):
     return ''.join(random.choice(string.ascii_letters) for x in range(length))
