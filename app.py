@@ -4,9 +4,11 @@ import werkzeug
 import os
 import random
 from os import walk 
+from PIL import Image
 
 
 app = Flask(__name__)
+base_img_path = 'static/img/base_img.JPG' 
 
 
 @app.route("/")
@@ -19,6 +21,16 @@ def upload():
     filename = werkzeug.utils.secure_filename(imagefile.filename)
     new_filename = random_string(64)
     imagefile.save(os.path.join("uploads", new_filename))
+
+    with Image.open(base_img_path) as base_img:
+        base_img.load()
+        with Image.open(os.path.join("uploads", new_filename)) as img:
+            img.load()
+            base_img.paste(
+                img.resize((520, 450)),
+                (275, 123)
+                )
+            base_img.save(os.path.join("uploads", new_filename + "_edited.jpg"))
 
     return str(new_filename)
 
