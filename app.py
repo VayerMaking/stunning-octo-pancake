@@ -5,7 +5,6 @@ import os
 import random
 from os import walk
 from PIL import Image
-import config
 from instabot import Bot
 
 
