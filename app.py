@@ -3,7 +3,8 @@ from flask import Flask, jsonify, render_template, request
 import werkzeug
 import os
 import random
-from os import walk, exists
+from os import walk
+from os.path import exists
 from PIL import Image
 from instauto.api.client import ApiClient
 from instauto.helpers.post import upload_image_to_feed
