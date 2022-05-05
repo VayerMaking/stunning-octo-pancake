@@ -12,10 +12,6 @@ from instauto.helpers.post import upload_image_to_feed
 
 app = Flask(__name__)
 base_img_path = 'static/img/base_img.JPG'
-file_exists = exists('store.instauto')
-client = 0
-if file_exists:
-    client = ApiClient.initiate_from_file('store.instauto')
 
 
 @app.route("/")
@@ -29,7 +25,6 @@ def init():
                        password=os.environ['PASSWORD'])
     client.log_in()
     client.save_to_disk('store.instauto')
-    client = ApiClient.initiate_from_file('store.instauto')
 
     return jsonify({'status': 'ok'})
 
@@ -51,6 +46,8 @@ def upload():
             )
             base_img.save(os.path.join(
                 "uploads", new_filename + "_edited.jpg"))
+            client = ApiClient.initiate_from_file('store.instauto')
+
             upload_image_to_feed(client, "./uploads/" + new_filename + "_edited.jpg",
                                  "test")
 
