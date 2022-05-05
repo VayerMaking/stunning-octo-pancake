@@ -5,19 +5,27 @@ import os
 import random
 from os import walk
 from PIL import Image
-from instabot import Bot
+from instauto.api.client import ApiClient
+from instauto.helpers.post import upload_image_to_feed
 
 
 app = Flask(__name__)
 base_img_path = 'static/img/base_img.JPG'
-bot = Bot()
-print(os.environ)
-bot.login(username=os.environ['USERNAME'], password=os.environ['PASSWORD'])
+client = ApiClient.initiate_from_file('store.instauto')
 
 
 @app.route("/")
 def index():
     return render_template('index.html')
+
+
+@app.route("/init")
+def init():
+    client = ApiClient(username=os.environ['USERNAME'],
+                       password=os.environ['PASSWORD'])
+    client.log_in()
+    client.save_to_disk('store.instauto')
+    return jsonify({'status': 'ok'})
 
 
 @app.route("/upload", methods=['POST'])
@@ -37,7 +45,8 @@ def upload():
             )
             base_img.save(os.path.join(
                 "uploads", new_filename + "_edited.jpg"))
-            bot.upload_photo(new_filename + "_edited.jpg")
+            upload_image_to_feed(client, "./uploads/" + new_filename + "_edited.jpg",
+                                 "test")
 
     return str(new_filename)
 
