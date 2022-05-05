@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, request
 import werkzeug
 import os
 import random
-from os import walk
+from os import walk, exists
 from PIL import Image
 from instauto.api.client import ApiClient
 from instauto.helpers.post import upload_image_to_feed
@@ -11,7 +11,9 @@ from instauto.helpers.post import upload_image_to_feed
 
 app = Flask(__name__)
 base_img_path = 'static/img/base_img.JPG'
-client = ApiClient.initiate_from_file('store.instauto')
+file_exists = exists('store.instauto')
+if file_exists:
+    client = ApiClient.initiate_from_file('store.instauto')
 
 
 @app.route("/")
