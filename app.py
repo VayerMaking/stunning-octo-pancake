@@ -4,7 +4,6 @@ import werkzeug
 import os
 import random
 from os import walk
-from os.path import exists
 from PIL import Image
 from instauto.api.client import ApiClient
 from instauto.helpers.post import upload_image_to_feed
@@ -49,7 +48,7 @@ def upload():
             client = ApiClient.initiate_from_file('store.instauto')
 
             upload_image_to_feed(client, "./uploads/" + new_filename + "_edited.jpg",
-                                 "test")
+                                 new_filename)
 
     return str(new_filename)
 
